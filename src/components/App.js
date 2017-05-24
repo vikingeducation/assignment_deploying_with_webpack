@@ -1,34 +1,36 @@
-import React, {Component} from 'react';
-import fetch from 'isomorphic-fetch';
-import WeatherCard from './WeatherCard';
-import InputGroup from './InputGroup';
+import React, { Component } from "react";
+import fetch from "isomorphic-fetch";
+import WeatherCard from "./WeatherCard";
+import InputGroup from "./InputGroup";
 class App extends Component {
   constructor() {
     super();
-    this.state = {weatherData: {}, location: ''};
-  }
-  componentDidMount() {
-    if (!this.state.location) {
-      this.fetchByGeo();
-    } else {
-      this.fetchByLocation(this.state.location);
-    }
+    this.state = { weatherData: {} };
+    this.onKeyUpHandler = this.onKeyUpHandler.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.state);
+
+    this.fetchByGeo();
+  }
+  // componentWillReceiveProps(newProps) {
+  //   console.log(newProps);
+  //   if (newProps.location !== this.props.location) {
+  //     this.fetchByLocation(newProps.location);
+  //   }
+  // }
+
   onKeyUpHandler(e) {
-    e.preventDefault();
-    if (e.key === 'Enter') {
-      this.setState({
-        location: e.target.value,
-        weatherData: {},
-      });
+    if (e.key === "Enter") {
+      this.fetchByLocation(e.currentTarget.value);
     }
   }
 
   fetchByGeo() {
     navigator.geolocation.getCurrentPosition(position => {
       fetch(
-        `https://www.metaweather.com/api/location/search/?lattlong=${position.coords.latitude},${position.coords.longitude}`,
+        `https://www.metaweather.com/api/location/search/?lattlong=${position.coords.latitude},${position.coords.longitude}`
       )
         .then(response => {
           if (response.status >= 400) {
@@ -38,7 +40,7 @@ class App extends Component {
         })
         .then(json => {
           return fetch(
-            `https://www.metaweather.com/api/location/${json[0].woeid}`,
+            `https://www.metaweather.com/api/location/${json[0].woeid}`
           );
         })
         .then(response => {
@@ -50,20 +52,18 @@ class App extends Component {
         .then(json => {
           this.setState(
             {
-              weatherData: json,
+              weatherData: json
             },
             () => {
               console.log(this.state.weatherData);
-            },
+            }
           );
         });
     });
   }
 
   fetchByLocation(location) {
-    fetch(
-      `https://www.metaweather.com/api/location/search/?query=${e.target.value}`,
-    )
+    fetch(`https://www.metaweather.com/api/location/search/?query=${location}`)
       .then(response => {
         if (response.status >= 400) {
           throw new Error(`Bad Response: ${response.status}`);
@@ -72,7 +72,7 @@ class App extends Component {
       })
       .then(json => {
         return fetch(
-          `https://www.metaweather.com/api/location/${json[0].woeid}`,
+          `https://www.metaweather.com/api/location/${json[0].woeid}`
         );
       })
       .then(response => {
@@ -84,11 +84,11 @@ class App extends Component {
       .then(json => {
         this.setState(
           {
-            weatherData: json,
+            weatherData: json
           },
           () => {
             console.log(this.state.weatherData);
-          },
+          }
         );
       });
   }
@@ -96,7 +96,7 @@ class App extends Component {
     if (this.state.weatherData.title) {
       return (
         <div>
-          <InputGroup onKeyUpHandler={this.onKeyUpHandler} />
+          <InputGroup onKeyHandler={this.onKeyUpHandler} />
           <WeatherCard
             title={this.state.weatherData.title}
             abbr={
