@@ -22,9 +22,9 @@ const Example = ({ weather, city }) => {
         <CardImg top width="100%" src={iconPath} alt="Weather icon" />
         <CardBlock>
           <CardTitle>{weather.weather_state_name}</CardTitle>
-          <CardSubtitle>High: {weather.max_temp}</CardSubtitle>
+          <CardSubtitle>High: {Number(weather.max_temp).toFixed(2)} °C</CardSubtitle>
           <br />
-          <CardSubtitle>Low: {weather.min_temp}</CardSubtitle>
+          <CardSubtitle>Low: {Number(weather.min_temp).toFixed(2)} °C</CardSubtitle>
         </CardBlock>
       </Card>
     </div>
