@@ -1,40 +1,24 @@
-import React, { Component } from "react";
+import React from 'react';
+import { Card, CardImg, CardText, CardBlock,
+  CardTitle, CardSubtitle, Button } from 'reactstrap';
 
-function success(pos) {
-  var crd = pos.coords;
+const Example = ({weather}) => {
+	let { weather_state_abbr } = weather;
+	let iconPath = `https://www.metaweather.com/static/img/weather/${weather_state_abbr}.svg`;
 
-  let latt = crd.latitude;
-  let long = crd.longitude;
-  fetch(
-    `https://www.metaweather.com/api/location/search/?lattlong=${latt},${long}`
-  )
-    .then(response => response.json())
-    .then(json => {
-      console.log("this is the json response", json);
-      return json;
-    });
-  console.log("Your current position is:");
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
-}
+  return (
+    <div>
+      <Card style={{maxWidth: "300px"}}>
+        <CardImg top width="100%" src={iconPath} alt="Weather icon" />
+        <CardBlock>
+          <CardTitle>Card title</CardTitle>
+          <CardSubtitle>Card subtitle</CardSubtitle>
+          <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+          <Button>Button</Button>
+        </CardBlock>
+      </Card>
+    </div>
+  );
+};
 
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-}
-
-class Weather extends Component {
-  constructor() {
-    super();
-  }
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(success, error);
-  }
-
-  render() {
-    return <div className="weather" />;
-  }
-}
-
-export default Weather;
+export default Example;
