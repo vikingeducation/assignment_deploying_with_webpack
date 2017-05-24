@@ -11,11 +11,11 @@ import {
 } from 'reactstrap';
 
 const WeatherCard = props => {
-  const {title, abbr, date, temp} = props;
+  const {abbr, date, temp} = props;
   return (
-    <div>
-      <Card block className="text-center" style={{width: '200px'}}>
-        <CardHeader>{title}</CardHeader>
+    <div style={{display: 'inline-block'}}>
+      <Card className="text-center" style={{width: '200px'}}>
+
         <CardImg
           width="50%"
           style={{display: 'block', margin: 'auto', paddingTop: '10px'}}

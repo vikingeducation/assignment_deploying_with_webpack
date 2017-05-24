@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import fetch from "isomorphic-fetch";
-import WeatherCard from "./WeatherCard";
-import InputGroup from "./InputGroup";
+import React, {Component} from 'react';
+import fetch from 'isomorphic-fetch';
+import WeatherCardList from './WeatherCardList';
+import SearchInput from './SearchInput';
 class App extends Component {
   constructor() {
     super();
-    this.state = { weatherData: {} };
+    this.state = {weatherData: {}};
     this.onKeyUpHandler = this.onKeyUpHandler.bind(this);
   }
 
@@ -22,7 +22,7 @@ class App extends Component {
   // }
 
   onKeyUpHandler(e) {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       this.fetchByLocation(e.currentTarget.value);
     }
   }
@@ -30,7 +30,7 @@ class App extends Component {
   fetchByGeo() {
     navigator.geolocation.getCurrentPosition(position => {
       fetch(
-        `https://www.metaweather.com/api/location/search/?lattlong=${position.coords.latitude},${position.coords.longitude}`
+        `https://www.metaweather.com/api/location/search/?lattlong=${position.coords.latitude},${position.coords.longitude}`,
       )
         .then(response => {
           if (response.status >= 400) {
@@ -40,7 +40,7 @@ class App extends Component {
         })
         .then(json => {
           return fetch(
-            `https://www.metaweather.com/api/location/${json[0].woeid}`
+            `https://www.metaweather.com/api/location/${json[0].woeid}`,
           );
         })
         .then(response => {
@@ -52,11 +52,11 @@ class App extends Component {
         .then(json => {
           this.setState(
             {
-              weatherData: json
+              weatherData: json,
             },
             () => {
               console.log(this.state.weatherData);
-            }
+            },
           );
         });
     });
@@ -72,7 +72,7 @@ class App extends Component {
       })
       .then(json => {
         return fetch(
-          `https://www.metaweather.com/api/location/${json[0].woeid}`
+          `https://www.metaweather.com/api/location/${json[0].woeid}`,
         );
       })
       .then(response => {
@@ -84,11 +84,11 @@ class App extends Component {
       .then(json => {
         this.setState(
           {
-            weatherData: json
+            weatherData: json,
           },
           () => {
             console.log(this.state.weatherData);
-          }
+          },
         );
       });
   }
@@ -96,17 +96,8 @@ class App extends Component {
     if (this.state.weatherData.title) {
       return (
         <div>
-          <InputGroup onKeyHandler={this.onKeyUpHandler} />
-          <WeatherCard
-            title={this.state.weatherData.title}
-            abbr={
-              this.state.weatherData.consolidated_weather[0].weather_state_abbr
-            }
-            date={
-              this.state.weatherData.consolidated_weather[0].applicable_date
-            }
-            temp={this.state.weatherData.consolidated_weather[0].the_temp}
-          />
+          <SearchInput onKeyHandler={this.onKeyUpHandler} />
+          <WeatherCardList weather={this.state.weatherData} />
         </div>
       );
     } else {
