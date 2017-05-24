@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   Button,
@@ -7,26 +7,26 @@ import {
   CardBlock,
   CardTitle,
   CardText,
-  CardImg
-} from "reactstrap";
+  CardImg,
+} from 'reactstrap';
 
 const WeatherCard = props => {
-  const { title, abbr, date, temp } = props;
+  const {title, abbr, date, temp} = props;
   return (
     <div>
-      <Card>
+      <Card block className="text-center" style={{width: '200px'}}>
         <CardHeader>{title}</CardHeader>
         <CardImg
-          top
-          width="100%"
+          width="50%"
+          style={{display: 'block', margin: 'auto', paddingTop: '10px'}}
           src={`https://www.metaweather.com/static/img/weather/${abbr}.svg`}
           alt="Weather Icon"
         />
         <CardBlock>
-          <CardTitle>{date}</CardTitle>
-          <CardText>
-            {temp}
-          </CardText>
+          <CardText>{date}</CardText>
+          <CardTitle>
+            {Math.round(temp * 100) / 100 + ' C'}
+          </CardTitle>
         </CardBlock>
       </Card>
 
