@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CityForm from "./CityForm";
-import Weather from "./Weather";
+import WeatherList from "./WeatherList";
+import serialize from 'form-serialize';
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -16,6 +17,7 @@ class WeatherContainer extends Component {
     };
 
     this.success = this.success.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   success(pos, customParam) {
@@ -41,13 +43,16 @@ class WeatherContainer extends Component {
         this.setState({
           isFetching: false,
           city: json.title,
-          weather: json.consolidated_weather[0]
+          weather: json.consolidated_weather
         });
       });
   }
 
   onSubmit(e) {
     e.preventDefault();
+    let form = e.target;
+    const data = serialize(form, {hash: true})
+    this.success(null, data.city)
   }
 
   componentDidMount() {
@@ -57,9 +62,9 @@ class WeatherContainer extends Component {
   render() {
     return (
       <div>
-        <CityForm />
-        <Weather
-          weather={this.state.weather}
+        <CityForm onSubmit={this.onSubmit}/>
+        <WeatherList
+          weatherDays={this.state.weather}
           isFetching={this.state.isFetching}
           city={this.state.city}
         />
