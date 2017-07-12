@@ -84,12 +84,12 @@ export function noGeolocation() {
   }
 }
 
-const baseURL = 'http://localhost:3000/api'
+const baseURL = 'https://secret-spire-88426.herokuapp.com/api'
 
 export function fetchWOEID(location) {
   return (dispatch) => {
     dispatch(woeidRequest())
-    fetch(`${baseURL}/?lattlong=${location.x},${location.y}`)
+    fetch(`${baseURL}/lattlong/${location.x},${location.y}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Something went wrong', response)
@@ -119,7 +119,7 @@ export function searchForLocation(location) {
   return (dispatch) => {
     dispatch(searchRequest())
 
-    fetch(`${baseURL}/?location=${location}`)
+    fetch(`${baseURL}/search/${location}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('No results')
@@ -140,7 +140,7 @@ export function fetchWeather(location) {
   return (dispatch) => {
     dispatch(getWeatherRequest())
 
-    fetch(`${baseURL}/?woeid=${location}`)
+    fetch(`${baseURL}/location/${location}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Location not found')
