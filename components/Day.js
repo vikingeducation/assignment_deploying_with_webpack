@@ -7,7 +7,7 @@ const Day = (props) => {
 
   const day = formatDate(props.applicable_date) === today ? 'Today' : formatDay(props.applicable_date)
 
-  const url = 'http://metaweather.com/static/img/weather/'
+  const url = 'https://www.metaweather.com/static/img/weather/'
 
   return (
     <div className="weather">
