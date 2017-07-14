@@ -31,13 +31,19 @@ const checkStatus = response => {
   return response;
 };
 
-const BASE_URL = "https://www.metaweather.com/api/location";
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
+const BASE_URL = "https://www.metaweather.com/api/location";
 
 app.get("/api/search", (req, res, next) => {
   console.log("Requesting search data from MetaWeather...");
-  const q = req.query.q || "San Francisco";
-  const searchURL = `${BASE_URL}/search/?query=${q}`;
+  const query = req.query.query || "";
+  const coords = req.query.coords || "";
+  const searchURL = `${BASE_URL}/search/?query=${query}&lattlong=${coords}`;
   let cityId;
   fetch(searchURL)
     .then(response => response.json())
@@ -51,10 +57,10 @@ app.get("/api/search", (req, res, next) => {
     })
     .then(response => response.json())
     .then(data => {
-      res.json(data);
+      res.json(data.consolidated_weather[0]);
     })
     .catch(error => {
-      res.json(error);
+      next(error);
     });
 });
 

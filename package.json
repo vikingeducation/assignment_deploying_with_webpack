@@ -6,12 +6,14 @@
   "author": "Christian Florez <florez.christian@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bootswatch": "^3.3.7",
     "compression": "^1.7.0",
     "es6-promise": "^4.1.1",
     "express": "^4.15.3",
     "fetch": "^1.1.0",
     "isomorphic": "^0.0.11",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.1",
     "react-dom": "^15.6.1"
   },
   "devDependencies": {

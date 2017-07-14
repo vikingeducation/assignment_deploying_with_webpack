@@ -7,18 +7,29 @@ class AppContainer extends Component{
     super()
     this.state = {
       city: "San Francisco",
-      forecast: "",
+      forecast: {},
       isFetching: false,
       error: null
     };
   }
 
   componentDidMount() {
+    let geo = new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((success, error) => {
+        resolve(success);
+        reject(error);
+      });
+    });
+
     this.setState({
       isFetching: true
     });
     let cityId;
-    fetch(`api/search?query=${this.state.city}`)
+
+    geo
+      .then(data => {
+        return fetch(`${BASE_URL}/api/search?coords=${data.coords.latitude},${data.coords.longitude}`)
+        })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -39,6 +50,7 @@ class AppContainer extends Component{
     return (
       <App 
         forecast={this.state.forecast}
+        isFetching={this.state.isFetching}
       />
     );
   }
