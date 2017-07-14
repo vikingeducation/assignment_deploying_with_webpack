@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import App from '../components/App';
-const BASE_URL = "https://www.metaweather.com/api/location/";
+const BASE_URL = "https://www.metaweather.com/api/location";
 
 class AppContainer extends Component{
   constructor() {
@@ -19,27 +19,30 @@ class AppContainer extends Component{
     });
     const searchURL = `${BASE_URL}/search/?query=${this.state.city}`;
     let cityId;
-    fetch(searchURL)
-    .then(response => response.json())
-    .then(data => {
-      cityId = data[0].woeid;
-      if (!cityId) {
-        throw new Error("City not found");
-      }
-      let weatherUrl = `${BASE_URL}/${cityId}`;
-      return fetch(weatherUrl);
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      this.setState({
-        isFetching: false,
-        error
+    fetch(searchURL, {mode: 'no-cors'})
+      .then(response => response.text())
+      .then(data => {
+        console.log('######')
+        console.log(data);
+        console.log('######')
+        cityId = data[0].woeid;
+        if (!cityId) {
+          throw new Error("City not found");
+        }
+        let weatherUrl = `${BASE_URL}/${cityId}`;
+        return fetch(weatherUrl);
       })
-    });
-
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          isFetching: false,
+          error
+        });
+      });
   }
 
   render() {
