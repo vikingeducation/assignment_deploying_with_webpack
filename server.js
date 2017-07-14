@@ -11,13 +11,6 @@ app.use(compression());
 
 app.set("port", process.env.PORT || 3001);
 
-// For later when we deploy to production, use the static
-// assets built in the client/build folder instead of
-// hosted at localhost:3000
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
-
 // Extract checking the status of the response for reuse
 const checkStatus = response => {
   // If response not okay, throw an error
@@ -75,6 +68,11 @@ const errorHandler = (err, req, res, next) => {
 
 // Tell the app to use the errorHandler middleware
 app.use(errorHandler);
+
+app.use(express.static('dist'));
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '/dist/index.html'))
+);
 
 app.listen(app.get("port"), () => {
   console.log(`Find the server at http://localhost:${app.get("port")}/`);
