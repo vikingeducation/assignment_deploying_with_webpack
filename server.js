@@ -46,6 +46,7 @@ app.get("/api/search", (req, res, next) => {
   const searchURL = `${BASE_URL}/search/?query=${query}&lattlong=${coords}`;
   let cityId;
   fetch(searchURL)
+    .then(checkStatus)
     .then(response => response.json())
     .then(data => {
       cityId = data[0].woeid;
@@ -67,9 +68,9 @@ app.get("/api/search", (req, res, next) => {
 
 // Defines next action for errors
 const errorHandler = (err, req, res, next) => {
-  console.error(`Error: ${err.stack}`);
   res.status(err.response ? err.response.status : 500);
   res.json({ error: err.message });
+  console.error(`Error: ${err.stack}`);
 };
 
 // Tell the app to use the errorHandler middleware

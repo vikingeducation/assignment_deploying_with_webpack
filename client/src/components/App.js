@@ -19,7 +19,7 @@ const createForecast = forecast => {
   )
 };
 
-const App = ({forecast, isFetching}) => {
+const App = ({forecast, isFetching, onSubmit, error}) => {
   let forecastView = <div />;
   if (!isFetching) {
     forecastView = createForecast(forecast);
@@ -30,13 +30,14 @@ const App = ({forecast, isFetching}) => {
       <Row>
         <h1>Weather Forecast</h1>
         <Col md={6} mdOffset={3}>
+        {error ? <span>Whoops, something went wrong! Try your search again.</span> : <div />}
         {isFetching ?
           <span>Loading...</span> :
           forecastView
         }
         </Col>
         <Col md={3}>
-          <form>
+          <form onSubmit={onSubmit}>
             <FormControl placeholder="Search" name="location"/>
             <Button type="submit" bsStyle="success">Look Up Weather</Button>
           </form>

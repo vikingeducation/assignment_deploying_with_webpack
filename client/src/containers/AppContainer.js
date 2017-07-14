@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import App from '../components/App';
+import serialize from "form-serialize";
 const BASE_URL = "http://localhost:3001";
 
 class AppContainer extends Component{
@@ -11,6 +12,7 @@ class AppContainer extends Component{
       isFetching: false,
       error: null
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +34,9 @@ class AppContainer extends Component{
         })
       .then(response => response.json())
       .then(data => {
+        if (data.error) {
+          throw new Error("City could not be found");
+        }
         this.setState({
           isFetching: false,
           forecast: data
@@ -46,11 +51,42 @@ class AppContainer extends Component{
       });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const location = serialize(form, { hash: true }).location;
+
+    this.setState({
+      isFetching: true,
+      error: null
+    });
+
+    fetch(`${BASE_URL}/api/search?query=${location}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          throw new Error("City could not be found");
+        }
+        this.setState({
+          isFetching: false,
+          forecast: data
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isFetching: false,
+          error
+        });
+      });
+  }
+
   render() {
     return (
       <App 
         forecast={this.state.forecast}
         isFetching={this.state.isFetching}
+        onSubmit={this.onSubmit}
+        error={this.state.error}
       />
     );
   }
