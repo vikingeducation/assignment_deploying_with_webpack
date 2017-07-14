@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import App from '../components/App';
-const BASE_URL = "https://www.metaweather.com/api/location";
+const BASE_URL = "http://localhost:3001";
 
 class AppContainer extends Component{
   constructor() {
@@ -17,24 +17,14 @@ class AppContainer extends Component{
     this.setState({
       isFetching: true
     });
-    const searchURL = `${BASE_URL}/search/?query=${this.state.city}`;
     let cityId;
-    fetch(searchURL, {mode: 'no-cors'})
-      .then(response => response.text())
-      .then(data => {
-        console.log('######')
-        console.log(data);
-        console.log('######')
-        cityId = data[0].woeid;
-        if (!cityId) {
-          throw new Error("City not found");
-        }
-        let weatherUrl = `${BASE_URL}/${cityId}`;
-        return fetch(weatherUrl);
-      })
+    fetch(`api/search?query=${this.state.city}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          isFetching: false,
+          forecast: data
+        });
       })
       .catch(error => {
         console.log(error);
@@ -47,7 +37,9 @@ class AppContainer extends Component{
 
   render() {
     return (
-      <App />
+      <App 
+        forecast={this.state.forecast}
+      />
     );
   }
 }
