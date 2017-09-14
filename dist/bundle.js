@@ -18716,17 +18716,13 @@ var _Weather2 = _interopRequireDefault(_Weather);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Greeting = function Greeting(_ref) {
-	var name = _ref.name;
-
-	return _react2.default.createElement(
-		'p',
-		{ className: 'greet' },
-		'Hello, ',
-		name,
-		'!'
-	);
-};
+// const Greeting = ({ name }) => {
+// 	return (
+// 		<p className="greet">
+// 			Hello, {name}!
+// 		</p>
+// 	);
+// };
 
 _reactDom2.default.render(_react2.default.createElement(_Weather2.default, null), document.getElementById('root'));
 
@@ -31983,45 +31979,59 @@ var Weather = function (_Component) {
 		return _this;
 	}
 
+	// async componentDidMount() {
+	// 	const BASE_URL = 'https://www.metaweather.com/api/';
+	// 	const SEARCH_URL = 'location/search/';
+	// 	const LOCATION_URL = 'location/';
+	// 	const LATTLONG_QUERY = `?lattlong=${this.state.latitude},${this.state.longitude}`
+	// 	const SEARCH_QUERY = '?query=bucharest';
+
+	// 	const response = await fetch(BASE_URL + SEARCH_URL + SEARCH_QUERY
+	// 		, {
+	// 		mode: 'no-cors'
+	// 		}
+	// 	);
+	// 	if (response.statusCode !== 200) { 
+	// 		console.log(response)
+	// 		return;
+	// 	}
+	// 	const json = await response.json();
+
+	// 	console.log(json);
+	// }
+
 	_createClass(Weather, [{
 		key: 'componentDidMount',
 		value: function () {
 			var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-				var BASE_URL, SEARCH_URL, LOCATION_URL, SEARCH_QUERY, response, json;
+				var response, json;
 				return regeneratorRuntime.wrap(function _callee$(_context) {
 					while (1) {
 						switch (_context.prev = _context.next) {
 							case 0:
-								BASE_URL = 'https://www.metaweather.com/api/';
-								SEARCH_URL = 'location/search/';
-								LOCATION_URL = 'location/';
-								SEARCH_QUERY = '?query=bucharest';
-								_context.next = 6;
-								return (0, _isomorphicFetch2.default)(BASE_URL + SEARCH_URL + SEARCH_QUERY, {
-									mode: 'no-cors'
-								});
+								_context.next = 2;
+								return (0, _isomorphicFetch2.default)('http://localhost:3001/bucharest');
 
-							case 6:
+							case 2:
 								response = _context.sent;
 
-								if (!(response.statusCode !== 200)) {
-									_context.next = 9;
+								if (response.ok) {
+									_context.next = 5;
 									break;
 								}
 
 								return _context.abrupt('return');
 
-							case 9:
-								_context.next = 11;
+							case 5:
+								_context.next = 7;
 								return response.json();
 
-							case 11:
+							case 7:
 								json = _context.sent;
-
 
 								console.log(json);
 
-							case 13:
+							case 9:
 							case 'end':
 								return _context.stop();
 						}
