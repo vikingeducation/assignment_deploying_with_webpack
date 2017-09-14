@@ -5,7 +5,13 @@
   "main": "index.js",
   "dependencies": {
     "elemental": "^0.6.1",
+    "http-proxy-middleware": "^0.17.4",
     "react-addons-css-transition-group": "^15.6.0"
+  },
+  "proxy": {
+    "/": {
+      "target": "http://localhost:3001"
+    }
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
