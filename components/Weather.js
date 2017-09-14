@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-fetch';
 
 export default class Weather extends Component {
 	constructor(props) {
