@@ -2,11 +2,11 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./index.js",
+  entry: "./src/app.js",
   output: {
-    filename: "public/build/bundle.js",
-    sourceMapFilename: "public/build/bundle.map"
-    // path: path.resolve(__dirname, "dist")
+    filename: "bundle.js",
+    sourceMapFilename: "bundle.map",
+    path: path.resolve(__dirname, "public/build/")
   },
   devtool: "#source-map",
   module: {
@@ -19,24 +19,27 @@ module.exports = {
           presets: ["react", "es2015"]
         }
       }
-      // { test: /\.css$/, loader: "style-loader!css-loader" },
-      // {
-      //   test: /\.(jpg|png|svg)$/,
-      //   loader: "file-loader"
-      // }
     ]
   },
-  plugins: process.env.NODE_ENV === 'production' ? [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: true
-      }
-    })
-  ] : []
+  plugins:
+    process.env.NODE_ENV === "production"
+      ? [
+          new webpack.DefinePlugin({
+            "process.env": {
+              NODE_ENV: JSON.stringify("production")
+            }
+          }),
+          new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            compress: {
+              warnings: true
+            }
+          })
+        ]
+      : [],
+  devServer: {
+    hot: true,
+    contentBase: "./views",
+    compress: true
+  }
 };

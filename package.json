@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/.bin/webpack-dev-server --port 4000 --config webpack.config.js --inline --hot",
-    "watch": "webpack --watch",
+    "watch": "node_modules/.bin/webpack --watch",
     "build": "node_modules/.bin/webpack",
     "postinstall": "npm run build",
     "probuild": "node_modules/.bin/webpack --progress -p"
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/EricGlover/assignment_deploying_with_webpack#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "compression": "^1.7.0",
     "express": "^4.15.4",
     "react": "^15.6.1",
