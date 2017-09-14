@@ -19,18 +19,22 @@ class AppContainer extends Component {
       coordinates: {
         lat: 44.2705835,
         long: -71.3207819
-      }
+      },
+      locations: {}
     };
   }
 
   async fetchCoords() {
     try {
       const { lat, long } = this.state.coordinates;
-      const response = await fetch(`coordinates?lat=${lat}&long=${long}`);
-      if (response.statusCode !== 200) {
-        throw new Error(response.statusText);
+      const response = await fetch(
+        `http://localhost:3001/coordinates?lat=${lat}&long=${long}`
+      );
+      if (response.status !== 200) {
+        throw new Error(response.status);
       } else {
         const json = await response.json();
+        this.setState({ locations: json });
         console.log(json);
       }
     } catch (error) {
@@ -48,7 +52,7 @@ class AppContainer extends Component {
     this.fetchCoords();
   }
   render() {
-    return <App {...this.state.coordinates} />;
+    return <App {...this.state} />;
   }
 }
 

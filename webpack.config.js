@@ -2,13 +2,6 @@ require("babel-polyfill");
 const path = require("path");
 
 module.exports = {
-  devServer: {
-    proxy: {
-      "/": {
-        target: "http://localhost:3001"
-      }
-    }
-  },
   entry: ["babel-polyfill", "./index.js"],
   output: {
     filename: "bundle.js",
