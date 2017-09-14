@@ -4,7 +4,8 @@
   "description": "Creating a React + Webpack app and deploying it to Heroku.",
   "main": "index.js",
   "dependencies": {
-    "elemental": "^0.6.1"
+    "elemental": "^0.6.1",
+    "react-addons-css-transition-group": "^15.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

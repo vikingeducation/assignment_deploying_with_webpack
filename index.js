@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./styles.min.css";
 import "./index.css";
+import AppContainer from "./containers/AppContainer";
 
-const Greeting = ({ name }) => <p className="greet">Hello, {name}!</p>;
-
-ReactDOM.render(<Greeting name="Greg" />, document.getElementById("root"));
+ReactDOM.render(<AppContainer />, document.getElementById("root"));
