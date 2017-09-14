@@ -4,7 +4,7 @@ const app = express();
 
 app.get("/", (req, res) => {
   fetch(
-    "https://www.metaweather.com/api/location/search/?lattlong=41.4532007,-85.7564007",
+    "https://www.metaweather.com/api/location/search/?lattlong=39.7191336,-91.41089799999999",
     { mode: "no-cors" }
   )
     .then(response => response.json())
