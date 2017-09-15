@@ -1,45 +1,55 @@
-import React, { Component } from 'react';
-import fetch from 'isomorphic-fetch';
+import React, { Component } from "react";
+import fetch from "isomorphic-fetch";
+import serialize from 'form-serialize'
 
 export default class Weather extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
-			latitude: 46.770439,
-			longitude: 23.591423
+			search_param: 'moscow',
+			result: []
 		};
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	// async componentDidMount() {
-	// 	const BASE_URL = 'https://www.metaweather.com/api/';
-	// 	const SEARCH_URL = 'location/search/';
-	// 	const LOCATION_URL = 'location/';
-	// 	const LATTLONG_QUERY = `?lattlong=${this.state.latitude},${this.state.longitude}`
-	// 	const SEARCH_QUERY = '?query=bucharest';
-
-	// 	const response = await fetch(BASE_URL + SEARCH_URL + SEARCH_QUERY
-	// 		, {
-	// 		mode: 'no-cors'
-	// 		}
-	// 	);
-	// 	if (response.statusCode !== 200) { 
-	// 		console.log(response)
-	// 		return;
-	// 	}
-	// 	const json = await response.json();
-
-	// 	console.log(json);
-	// }
-
-	async componentDidMount() {
-		const response = await fetch('http://localhost:3001/bucharest')
+	async getFetch(param) {
+		const response = await fetch(
+			`http://localhost:3001/${param}`
+		);
 		if (!response.ok) return;
-		const json = await response.json();
-		console.log(json)
+		const result = await response.json()
+		console.log(result);
+		this.setState({
+			result
+		});
+	}
+
+	onSubmit (e) {
+		e.preventDefault();
+		const form = serialize(e.target, {hash:true})
+		console.log(form.value);
+		this.setState({
+			search_param: form.value
+		});
+		this.getFetch(form.value)
+	};
+
+	componentDidMount() {
+		this.getFetch(this.state.search_param)
 	}
 
 	render() {
-		return <p>foo</p>;
+		return (
+			<div>
+				<form onSubmit={this.onSubmit}>
+					<input type="text" name='value' />
+					<button type="submit">Get Weather</button>
+				</form>
+				<br />
+				<p>Your weather:</p>
+				{this.state.result[0] ? this.state.result[0].weather_state_name : null}
+				<br />
+			</div>
+		);
 	}
 }

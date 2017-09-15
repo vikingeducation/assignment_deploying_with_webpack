@@ -9,8 +9,8 @@ const bodyParser = require("body-parser");
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const BASE_URL = 'https://www.metaweather.com/api/';
-const SEARCH_URL = 'location/search/';
+const BASE_URL = 'https://www.metaweather.com/api/location/';
+const SEARCH_URL = 'search/';
 const LOCATION_URL = 'location/';
 // const LATTLONG_QUERY = `?lattlong=${this.state.latitude},${this.state.longitude}`
 const SEARCH_QUERY = '?query=bucharest';
@@ -26,13 +26,25 @@ function checkStatus(response) {
 
 // routes
 app.get('/:query', (req, res ,next) => {
-  fetch(BASE_URL + SEARCH_URL + `?query=` + req.params.query, {
+  let url = BASE_URL + SEARCH_URL + `?query=` + req.params.query
+  console.log('server 30 ', url)
+  fetch(url, {
     mode: 'no-cors'
   })
   .then(checkStatus)
   .then(resp=>resp.json())
   .then(json=>{
-    res.json(json)
+    console.log('line 37 ',json);
+    let url = BASE_URL + json[0].woeid
+    console.log('lin 39 ', url)
+    return fetch(url, {
+    mode: 'no-cors'
+    })
+  })
+  .then(checkStatus)
+  .then(resp=>resp.json())
+  .then(json=>{
+    res.json(json.consolidated_weather)
   })
   .catch(e=>{next(e)})
 })
