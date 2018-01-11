@@ -6,21 +6,19 @@
   "scripts": {
     "build": "node_modules/.bin/webpack --progress -p",
     "start": "node_modules/.bin/webpack-dev-server --open",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postbuild": "node ./server.js"
   },
   "repository": {
     "type": "git",
-    "url":
-      "git+https://github.com/steven4354/assignment_deploying_with_webpack.git"
+    "url": "git+https://github.com/steven4354/assignment_deploying_with_webpack.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url":
-      "https://github.com/steven4354/assignment_deploying_with_webpack/issues"
+    "url": "https://github.com/steven4354/assignment_deploying_with_webpack/issues"
   },
-  "homepage":
-    "https://github.com/steven4354/assignment_deploying_with_webpack#readme",
+  "homepage": "https://github.com/steven4354/assignment_deploying_with_webpack#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -34,6 +32,8 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
+    "compression": "^1.7.1",
+    "express": "^4.16.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   }
