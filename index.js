@@ -1,8 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./style.css";
-const imgSrc = require("./image.jpg");
+import App from "./src/components/App";
 
-const Greeting = ({name}) => <p className="greet">Hello, {name}!</p>;
+import { createStore, applyMiddleware } from "redux";
+import { starWars } from "./src/reducers";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 
-ReactDOM.render(<Greeting name="Reign" />, document.getElementById("root"));
+let store = createStore(starWars, applyMiddleware(thunk));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
